@@ -1,0 +1,83 @@
+name: Utils
+version: '${project.version}'
+main: me.frandma.utils.Utils
+authors: [ Frandma ]
+description: Core plugin.
+website: https://cryptostresser.com/
+commands:
+  clear:
+    description: Clear inventories.
+    permission: utils.clear
+    permission-message: §cYou cannot do that.
+    usage: §c/clear [player]
+    aliases: [ c ]
+  discord:
+    description: Sends the discord invite.
+    usage: §c/discord
+    aliases: [ disc ]
+  gamemode:
+    description: Change gamemode.
+    permission: utils.gamemode
+    permission-message: §cYou cannot do that.
+    usage: §c/gamemode <gamemode> [player]
+    aliases: [ gm , gms , gmc , gma , gmsp ]
+  give:
+    description: Give items to yourself or others.
+    permission: utils.give
+    permission-message: §cYou cannot do that.
+    usage: §c/give [player] <item> [amount]
+    aliases: [ item , i ]
+  message:
+    description: Send private messages.
+    usage: §c/message <player> <message>
+    aliases: [ msg , w , pm , dm ]
+  mod:
+    description: Helpful mod tools.
+    permission: utils.mod
+    permission-message: §cYou cannot do that.
+  mute:
+    description: Silence players.
+    usage: §c/mute <player> <duration> <reason>
+    aliases: [ unmute ]
+    permission: utils.mute
+    permission-message: §cYou cannot do that.
+  powertool:
+    description: Give super powers to items.
+    permission: utils.powertool
+    permission-message: §cYou cannot do that.
+    usage: §c/powertool <chatmessage>
+    aliases: [ pt ]
+  staffchat:
+    description: Talk with other staff.
+    permission: utils.staff
+    permission-message: §cYou cannot do that.
+    usage: §c/staffchat [message]
+    aliases: [ sc ]
+  sudo:
+    description: Sudo players.
+    permission: utils.sudo
+    permission-message: §cYou cannot do that.
+    usage: §c/sudo <player> <sudo>
+  teleport:
+    description: Teleport players.
+    permission: utils.teleport
+    permission-message: §cYou cannot do that.
+    usage: §c/teleport <player> [player]
+    aliases: [ tp ]
+  tphere:
+    description: Teleport to yourself.
+    permission: utils.teleport
+    permission-message: §cYou cannot do that.
+    usage: §c/tphere <player>
+  vanish:
+    description: Become invisible.
+    permission: utils.staff
+    permission-message: §cYou cannot do that.
+    usage: §c/vanish [player]
+    aliases: [ v ]
+  view:
+    description: View inventories.
+    permission: utils.view
+    permission-message: §cYou cannot do that.
+    usage: §c/view <player>
+    aliases: [ invsee , openinv ]
