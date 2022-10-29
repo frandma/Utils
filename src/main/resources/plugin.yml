@@ -41,8 +41,13 @@ commands:
     description: Helpful mod tools.
     permission: utils.mod
     permission-message: §cYou cannot do that.
+  mutechat:
+    description: Silence all players.
+    usage: §c/mutechat
+    permission: utils.mutechat
+    permission-message: §cYou cannot do that.
   mute:
-    description: Silence players.
+    description: Silence a player.
     usage: §c/mute <player> <reason>
     aliases: [ unmute ]
     permission: utils.mute

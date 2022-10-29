@@ -14,7 +14,7 @@ public class MessageCommand implements CommandExecutor {
         if (target == null) return false;
         String name = sender.getName();
         if (!(sender instanceof Player)) name = "Console";
-        if (target.getName() == name) return false;
+        if (target.getName().equals(name)) return false;
         sender.sendMessage("(To " + target.getDisplayName() + "§f: " + args[1] + ")");
         target.sendMessage("(From " + name + "§f: " + args[1] + ")");
         return true;

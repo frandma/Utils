@@ -2,6 +2,7 @@ package me.frandma.utils.commands;
 
 import me.frandma.utils.Utils;
 import me.frandma.utils.user.PlayersDB;
+import me.frandma.utils.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -10,9 +11,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Date;
-
 public class MuteCommand implements CommandExecutor {
+
+    private final Utils plugin;
+    public MuteCommand(Utils plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!label.contains("un")) {
@@ -22,10 +27,12 @@ public class MuteCommand implements CommandExecutor {
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             if (target == null) return false;
 
-
-
-            long time = new Date().getTime() + Integer.parseInt(args[1]);
-            PlayersDB.setMuted(target.getUniqueId(), true, args[2]);
+            if (target.isOnline()) {
+                User user = plugin.getUserData().get(target.getPlayer());
+                user.mute(args[1]);
+            } else {
+                PlayersDB.setMuted(target.getUniqueId(), true, args[1]);
+            }
 
             String name = sender.getName();
             if (!(sender instanceof Player)) name = "Console";
@@ -45,24 +52,16 @@ public class MuteCommand implements CommandExecutor {
             }
 
 
-
-            PlayersDB.setMuted(target.getUniqueId(), false, null);
-
+            if (target.isOnline()) {
+                User user = plugin.getUserData().get(target.getPlayer());
+                user.unMute();
+            } else {
+                PlayersDB.setMuted(target.getUniqueId(), false, args[1]);
+            }
             String name = sender.getName();
             if (!(sender instanceof Player)) name = "Console";
 
             Bukkit.broadcast("§9[S] §b" + name + "§f unmuted §b" + target.getName() + "§f.", "Utils.staff");
-        }
-        return true;
-    }
-
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch(NumberFormatException e) {
-            return false;
-        } catch(NullPointerException e) {
-            return false;
         }
         return true;
     }

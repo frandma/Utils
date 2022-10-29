@@ -10,9 +10,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 public class PlayerPreLoginListener implements Listener {
+
+    private final Utils plugin;
+    public PlayerPreLoginListener(Utils plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onPlayerPreLoginEvent(AsyncPlayerPreLoginEvent e) {
-        UserData userData = Utils.instance.getUserData();
+        UserData userData = plugin.getUserData();
         userData.addPlayer(e.getName(), e.getUniqueId());
         User user = userData.get(e.getUniqueId());
         try {
@@ -24,7 +30,7 @@ public class PlayerPreLoginListener implements Listener {
             exception.printStackTrace();
             return;
         }
-        Bukkit.getScheduler().runTaskLaterAsynchronously(Utils.instance, () -> {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
             Player player1 = Bukkit.getPlayer(e.getUniqueId());
             if (player1 == null)
                 userData.removePlayer(e.getUniqueId());

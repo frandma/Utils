@@ -17,15 +17,13 @@ import java.io.File;
 @Getter
 @Setter
 public final class Utils extends JavaPlugin {
-    public static Utils instance;
-    public static Chat chat;
-    public static File file;
+    private static Utils instance;
+    private static Chat chat;
     private final UserData userData = new UserData();
 
     @Override
     public void onEnable() {
         instance = this;
-        file = getFile();
         getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         registerCommands();
@@ -36,14 +34,15 @@ public final class Utils extends JavaPlugin {
     }
 
     private void registerCommands() {
-        getCommand("ban").setExecutor(new BanCommand());
+        getCommand("ban").setExecutor(new BanCommand(this));
         getCommand("clear").setExecutor(new ClearCommand());
-        getCommand("discord").setExecutor(new DiscordCommand());
+        getCommand("discord").setExecutor(new DiscordCommand(this));
         getCommand("gamemode").setExecutor(new GamemodeCommand());
         getCommand("give").setExecutor(new GiveCommand());
         getCommand("message").setExecutor(new MessageCommand());
         getCommand("mod").setExecutor(new ModCommand());
-        getCommand("mute").setExecutor(new MuteCommand());
+        getCommand("mutechat").setExecutor(new MuteChatCommand(this));
+        getCommand("mute").setExecutor(new MuteCommand(this));
         getCommand("powertool").setExecutor(new PowerToolCommand());
         getCommand("staffchat").setExecutor(new StaffChatCommand());
         getCommand("sudo").setExecutor(new SudoCommand());
@@ -54,14 +53,23 @@ public final class Utils extends JavaPlugin {
     }
 
     private void registerListeners() {
-        Bukkit.getPluginManager().registerEvents(new PlayerChatListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerChatListener(this), this);
         Bukkit.getPluginManager().registerEvents(new InventoryClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new InventoryCloseListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerInteractListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerLoginListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerPreLoginListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerLoginListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerPreLoginListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+    }
+
+
+    public static Chat getChat() {
+        return chat;
+    }
+    public static Utils getInstance() { return instance; }
+    public UserData getUserData() {
+        return this.userData;
     }
 
     private void papi() {
@@ -76,11 +84,4 @@ public final class Utils extends JavaPlugin {
         return chat != null;
     }
 
-    public static Chat getChat() {
-        return chat;
-    }
-
-    public UserData getUserData() {
-        return this.userData;
-    }
 }

@@ -41,22 +41,14 @@ public class GiveCommand implements CommandExecutor {
                 sender.sendMessage("§cInvalid item id.");
                 return;
             }
-            if (isInteger(split[0])) {
-                material = Material.getMaterial(split[0].toUpperCase());
-            } else {
-                material = Material.getMaterial(split[0].toUpperCase());
-            }
+            material = Material.getMaterial(split[0].toUpperCase());
             if (material == null) {
                 sender.sendMessage("§cInvalid material.");
                 return;
             }
             item = new ItemStack(material, amount, Short.parseShort(split[1]));
         } else {
-            if (isInteger(s)) {
-                material = Material.getMaterial(s.toUpperCase());
-            } else {
-                material = Material.getMaterial(s.toUpperCase());
-            }
+            material = Material.getMaterial(s.toUpperCase());
             if (material == null) {
                 sender.sendMessage("§cInvalid material.");
                 return;
@@ -68,7 +60,7 @@ public class GiveCommand implements CommandExecutor {
     }
     boolean isInteger(String i) {
         try {
-            int intValue = Integer.parseInt(i);
+            Integer.parseInt(i);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -76,7 +68,7 @@ public class GiveCommand implements CommandExecutor {
     }
     boolean isShort(String i) {
         try {
-            short shortValue = Short.parseShort(i);
+            Short.parseShort(i);
             return true;
         } catch (NumberFormatException e) {
             return false;

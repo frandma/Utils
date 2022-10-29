@@ -16,12 +16,12 @@ public class PlayersDB {
     private Connection c;
 
     public void setup() {
-        File dataFolder = new File(Utils.instance.getDataFolder(), "players.db");
+        File dataFolder = new File(Utils.getInstance().getDataFolder(), "players.db");
         if (!dataFolder.exists()){
             try {
                 dataFolder.createNewFile();
             } catch (IOException e) {
-                Utils.instance.getLogger().info("File write error: players.db");
+                Utils.getInstance().getLogger().info("File write error: players.db");
             }
         }
         try {
@@ -37,9 +37,7 @@ public class PlayersDB {
             } catch (Exception e) {
                 Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
             }
-        } catch (SQLException e) {
-            Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
         }
     }
@@ -57,10 +55,10 @@ public class PlayersDB {
         Player p = Bukkit.getPlayer(uuid);
         if (bool) {
             if (!p.isOnline()) return;
-            ((Player) p).sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.instance.getConfig().getString("afterMuteMessage")));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.getInstance().getConfig().getString("afterMuteMessage")));
         } else {
             if (!p.isOnline()) return;
-            ((Player) p).sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.instance.getConfig().getString("unMuteMessage")));
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.getInstance().getConfig().getString("unMuteMessage")));
         }
 
     }
@@ -102,7 +100,7 @@ public class PlayersDB {
         if (!bool) return;
         Player p = Bukkit.getPlayer(uuid);
         if (!p.isOnline()) return;
-        ((Player) p).kickPlayer(Utils.instance.getConfig().getString("afterBanMessage"));
+        p.kickPlayer(Utils.getInstance().getConfig().getString("afterBanMessage"));
     }
 
     public boolean isBanned(UUID uuid) {

@@ -14,10 +14,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.util.UUID;
 
 public class PlayerJoinListener implements Listener {
+
+    private final Utils plugin;
+    public PlayerJoinListener(Utils plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        UserData userData = Utils.instance.getUserData();
+        UserData userData = plugin.getUserData();
         User user = userData.get(p);
         if (user == null) {
             p.kickPlayer("Couldn't fetch user data at the join stage, please try logging in again. If this error persists contact us. \n https://discord.gg/wRGsrJE97R");

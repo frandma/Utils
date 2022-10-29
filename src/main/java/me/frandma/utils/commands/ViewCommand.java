@@ -17,7 +17,6 @@ public class ViewCommand implements CommandExecutor, Listener {
         Player targetPlayer = Bukkit.getPlayer(args[0]);
         if (targetPlayer == null) return false;
         Player senderPlayer = (Player) sender;
-        CustomHolder customHolder = new CustomHolder(senderPlayer, targetPlayer);
         Inventory inv = Bukkit.createInventory(new CustomHolder(senderPlayer, targetPlayer), 5*9, targetPlayer.getName() + "'s inventory");
         inv.setContents(View.formatInventory(targetPlayer.getInventory()).getContents());
         senderPlayer.openInventory(inv);

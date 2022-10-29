@@ -10,15 +10,21 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuitListener implements Listener {
+
+    private final Utils plugin;
+    public PlayerQuitListener(Utils plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        UserData userData = Utils.instance.getUserData();
+        UserData userData = plugin.getUserData();
         User user = userData.get(p);
         Player player1 = Bukkit.getPlayer(user.getPlayer().getUniqueId());
         if (player1 == null) {
             userData.removePlayer(user.getPlayer());
-            Utils.instance.getUserData().removePlayer(user.getPlayer());
+            plugin.getUserData().removePlayer(user.getPlayer());
         }
         if (p.hasPermission("utils.staff")) {
             e.setQuitMessage(null);

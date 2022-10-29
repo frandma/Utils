@@ -1,16 +1,22 @@
 discordLink: https://discord.gg/CattoShield
 
+#message that gets broadcasted when the chat gets muted
+chatMuted: &cThe chat has been muted.
+
+#message that gets broadcasted when the chat gets muted
+chatUnMuted: &cThe chat has been unmuted.
+
 #message that gets sent after a player gets muted
-afterMuteMessage: §cYou just got muted, appeal this mute at https://discord.gg/CattoShield.
+afterMuteMessage: &cYou just got muted, appeal this mute at https://discord.gg/CattoShield.
 
 #message that gets sent when a muted player tries to chat or message
-muteMessage: §cYou are currently muted, appeal this mute at https://discord.gg/CattoShield.
+muteMessage: &cYou are currently muted, appeal this mute at https://discord.gg/CattoShield.
 
 #message that gets sent when a player gets unMuted
-unMuteMessage: §7You are no longer muted.
+unMuteMessage: &7You are no longer muted.
 
 #message that gets sent after a player gets banned
-afterBanMessage: §cYou just got banned, appeal this ban at https://discord.gg/CattoShield.
+afterBanMessage: &cYou just got banned, appeal this ban at https://discord.gg/CattoShield.
 
 #message that gets sent when a banned player tries to log in
-banMessage: §cYou are currently banned, appeal this ban at https://discord.gg/CattoShield.
+banMessage: &cYou are currently banned, appeal this ban at https://discord.gg/CattoShield.
