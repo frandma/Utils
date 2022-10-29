@@ -1,17 +1,18 @@
-package me.frandma.utils.sqlite;
+package me.frandma.utils.user;
 
 import lombok.experimental.UtilityClass;
 import me.frandma.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.UUID;
 
 @UtilityClass
-public class SQL {
+public class PlayersDB {
     private Connection c;
 
     public void setup() {
@@ -24,6 +25,7 @@ public class SQL {
             }
         }
         try {
+            Class.forName("org.sqlite.JDBC");
             c = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
             try (PreparedStatement ps = c.prepareStatement("CREATE TABLE IF NOT EXISTS players (" +
                     "uuid varchar(255) PRIMARY KEY, " +
@@ -37,24 +39,35 @@ public class SQL {
             }
         } catch (SQLException e) {
             Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
         }
     }
 
-    public void setMuted(OfflinePlayer p, boolean bool, String reason) {
+    public void setMuted(UUID uuid, boolean bool, String reason) {
         try (PreparedStatement ps = c.prepareStatement("UPDATE players SET muted = ?, muteReason = ? WHERE uuid = ?;")) {
             ps.setBoolean(1, bool);
             ps.setString(2, reason);
-            ps.setString(3, p.getUniqueId().toString());
+            ps.setString(3, uuid.toString());
             ps.executeQuery();
             ps.close();
         } catch (SQLException e){
             Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
         }
+        Player p = Bukkit.getPlayer(uuid);
+        if (bool) {
+            if (!p.isOnline()) return;
+            ((Player) p).sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.instance.getConfig().getString("afterMuteMessage")));
+        } else {
+            if (!p.isOnline()) return;
+            ((Player) p).sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.instance.getConfig().getString("unMuteMessage")));
+        }
+
     }
 
-    public boolean isMuted(OfflinePlayer p) {
-        try (PreparedStatement ps = c.prepareStatement("SELECT * FROM players WHERE uuid = ?")) {
-            ps.setString(1, p.getUniqueId().toString());
+    public boolean isMuted(UUID uuid) {
+        try (PreparedStatement ps = c.prepareStatement("SELECT * FROM players WHERE uuid = ?")) { //line 66
+            ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             ps.close();
             return rs.getBoolean(2);
@@ -64,9 +77,9 @@ public class SQL {
         }
     }
 
-    public String getMuteReason(OfflinePlayer p) {
+    public String getMuteReason(UUID uuid) {
         try (PreparedStatement ps = c.prepareStatement("SELECT * FROM players WHERE uuid = ?")) {
-            ps.setString(1, p.getUniqueId().toString());
+            ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             ps.close();
             return rs.getString(3);
@@ -76,24 +89,25 @@ public class SQL {
         }
     }
 
-    public void setBanned(OfflinePlayer p, boolean bool, String reason) {
+    public void setBanned(UUID uuid, boolean bool, String reason) {
         try (PreparedStatement ps = c.prepareStatement("UPDATE players SET banned = ?, banDuration = ?, banReason = ? WHERE uuid = ?;")) {
             ps.setBoolean(1, bool);
             ps.setString(2, reason);
-            ps.setString(3, p.getUniqueId().toString());
+            ps.setString(3, uuid.toString());
             ps.executeQuery();
             ps.close();
         } catch (SQLException e){
             Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
         }
-        if (bool == false) return;
+        if (!bool) return;
+        Player p = Bukkit.getPlayer(uuid);
         if (!p.isOnline()) return;
-        ((Player) p).kickPlayer("§cYou have been banned.");
+        ((Player) p).kickPlayer(Utils.instance.getConfig().getString("afterBanMessage"));
     }
 
-    public boolean isBanned(OfflinePlayer p) {
+    public boolean isBanned(UUID uuid) {
         try (PreparedStatement ps = c.prepareStatement("SELECT * FROM players WHERE uuid = ?")) {
-            ps.setString(1, p.getUniqueId().toString());
+            ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             ps.close();
             return rs.getBoolean(4);
@@ -103,9 +117,9 @@ public class SQL {
         return false;
     }
 
-    public String getBanReason(OfflinePlayer p) {
+    public String getBanReason(UUID uuid) {
         try (PreparedStatement ps = c.prepareStatement("SELECT * FROM players WHERE uuid = ?")) {
-            ps.setString(1, p.getUniqueId().toString());
+            ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
             ps.close();
             return rs.getString(5);

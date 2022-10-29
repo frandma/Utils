@@ -1,6 +1,7 @@
 package me.frandma.utils.listeners;
 
 import me.frandma.utils.other.View;
+import me.frandma.utils.user.CustomHolder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,13 +15,18 @@ public class InventoryClickListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (e.getInventory().getTitle().contains("'s Inventory")) {
+
             int s = e.getSlot();
             if (!(e.getWhoClicked() instanceof Player) || s == 7) {
                 e.setCancelled(true);
                 return;
             }
-            Player viewer = (Player) e.getWhoClicked();
-            Player target = Bukkit.getPlayer(e.getInventory().getTitle().split("'")[0]);
+            if (!(e.getInventory().getHolder() instanceof CustomHolder)) return;
+            CustomHolder holder = (CustomHolder) e.getInventory().getHolder();
+            Player viewer = holder.getViewer();
+            Player target = holder.getTarget();
+            viewer.sendMessage("debug viewer");
+            target.sendMessage("debug target");
             PlayerInventory targetInv = target.getInventory();
             if (s == 0) {
                 targetInv.setHelmet(viewer.getItemOnCursor());

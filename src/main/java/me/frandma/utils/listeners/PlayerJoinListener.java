@@ -26,12 +26,12 @@ public class PlayerJoinListener implements Listener {
         p.setDisplayName(ChatColor.translateAlternateColorCodes('&', Utils.getChat().getPlayerPrefix(p)) + p.getName());
         if (p.hasPermission("utils.staff")) {
             e.setJoinMessage(null);
-            Vanish.vanish(p, false);
-            Bukkit.getServer().broadcast("§9[S] " + p.getDisplayName() + " §fjoined.", "utils.staff");
+            user.vanish(false);
+            Bukkit.getServer().broadcast("§9[S] " + p.getDisplayName() + "§f joined.", "utils.staff");
         } else {
             e.setJoinMessage(p.getDisplayName() + " §fjoined.");
-            for (UUID vanishedplayer : Vanish.vanishlist) {
-                p.hidePlayer(Bukkit.getPlayer(vanishedplayer));
+            for (UUID vanishedPlayer : Vanish.vanishlist) {
+                p.hidePlayer(Bukkit.getPlayer(vanishedPlayer));
             }
         }
     }

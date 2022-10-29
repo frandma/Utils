@@ -5,6 +5,12 @@ authors: [ Frandma ]
 description: Core plugin.
 website: https://cryptostresser.com/
 commands:
+  ban:
+    description: Remove the permission to play.
+    permission: utils.ban
+    permission-message: §cYou cannot do that.
+    usage: §c/ban <player> <reason>
+    aliases: [ unban ]
   clear:
     description: Clear inventories.
     permission: utils.clear
@@ -30,14 +36,14 @@ commands:
   message:
     description: Send private messages.
     usage: §c/message <player> <message>
-    aliases: [ msg , w , pm , dm ]
+    aliases: [ msg , w , whisper ]
   mod:
     description: Helpful mod tools.
     permission: utils.mod
     permission-message: §cYou cannot do that.
   mute:
     description: Silence players.
-    usage: §c/mute <player> <duration> <reason>
+    usage: §c/mute <player> <reason>
     aliases: [ unmute ]
     permission: utils.mute
     permission-message: §cYou cannot do that.
@@ -54,24 +60,24 @@ commands:
     usage: §c/staffchat [message]
     aliases: [ sc ]
   sudo:
-    description: Sudo players.
+    description: Make someone chat or do commands.
     permission: utils.sudo
     permission-message: §cYou cannot do that.
     usage: §c/sudo <player> <sudo>
   teleport:
-    description: Teleport players.
+    description: Teleport the specified player.
     permission: utils.teleport
     permission-message: §cYou cannot do that.
     usage: §c/teleport <player> [player]
     aliases: [ tp ]
   tphere:
-    description: Teleport to yourself.
+    description: Teleport a player to yourself.
     permission: utils.teleport
     permission-message: §cYou cannot do that.
     usage: §c/tphere <player>
   vanish:
     description: Become invisible.
-    permission: utils.staff
+    permission: utils.vanish
     permission-message: §cYou cannot do that.
     usage: §c/vanish [player]
     aliases: [ v ]

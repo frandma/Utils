@@ -3,6 +3,7 @@ package me.frandma.utils.listeners;
 import me.frandma.utils.Utils;
 import me.frandma.utils.user.User;
 import me.frandma.utils.user.UserData;
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -17,7 +18,7 @@ public class PlayerLoginListener implements Listener {
             return;
         }
         if (user.isBanned()) {
-            user.getPlayer().kickPlayer(Utils.instance.getConfig().getString("banMessage"));
+            user.getPlayer().kickPlayer(ChatColor.translateAlternateColorCodes('&', Utils.instance.getConfig().getString("banMessage")));
         }
     }
 }

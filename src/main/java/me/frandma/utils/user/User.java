@@ -1,36 +1,69 @@
 package me.frandma.utils.user;
 
-import me.frandma.utils.sqlite.SQL;
+import me.frandma.utils.other.Vanish;
+
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class User {
-    private Player player;
+    private final String name;
+    private final UUID uuid;
+    private boolean vanished;
     private boolean muted;
     private String muteReason;
     private boolean banned;
     private String banReason;
 
     public User(Player player) {
-        this.player = player;
-        this.muted = SQL.isMuted(player);
-        this.muteReason = SQL.getMuteReason(player);
-        this.banned = SQL.isBanned(player);
-        this.banReason = SQL.getBanReason(player);
+        this.name = player.getName();
+        this.uuid = player.getUniqueId();
+        this.vanished = Vanish.isVanished(player.getUniqueId());
+        this.muted = PlayersDB.isMuted(player.getUniqueId());
+        this.muteReason = PlayersDB.getMuteReason(player.getUniqueId());
+        this.banned = PlayersDB.isBanned(player.getUniqueId());
+        this.banReason = PlayersDB.getBanReason(player.getUniqueId());
+    }
+
+    public User(String name, UUID uuid) {
+        this.name = name;
+        this.uuid = uuid;
+        this.vanished = Vanish.isVanished(uuid);
+        this.muted = PlayersDB.isMuted(uuid);
+        this.muteReason = PlayersDB.getMuteReason(uuid);
+        this.banned = PlayersDB.isBanned(uuid);
+        this.banReason = PlayersDB.getBanReason(uuid);
     }
 
     public void load() {
-        this.muted = SQL.isMuted(player);
-        this.muteReason = SQL.getMuteReason(player);
-        this.banned = SQL.isBanned(player);
-        this.banReason = SQL.getBanReason(player);
+        this.vanished = Vanish.isVanished(uuid);
+        this.muted = PlayersDB.isMuted(uuid);
+        this.muteReason = PlayersDB.getMuteReason(uuid);
+        this.banned = PlayersDB.isBanned(uuid);
+        this.banReason = PlayersDB.getBanReason(uuid);
     }
 
     public Player getPlayer() {
-        return player;
+        return Bukkit.getPlayer(uuid);
+    }
+
+    public void vanish(boolean announceToOtherStaff) {
+        Vanish.vanish(Bukkit.getPlayer(uuid), announceToOtherStaff);
+        this.vanished = true;
+    }
+
+    public void unVanish() {
+        Vanish.unvanish(Bukkit.getPlayer(uuid));
+        this.vanished = false;
+    }
+
+    public boolean isVanished() {
+        return Vanish.isVanished(uuid);
     }
 
     public void mute(String reason) {
-        SQL.setMuted(player, true, reason);
+        PlayersDB.setMuted(uuid, true, reason);
         this.muted = true;
     }
 
@@ -38,8 +71,8 @@ public class User {
         return muteReason;
     }
 
-    public void unmute() {
-        SQL.setMuted(player, false, null);
+    public void unMute() {
+        PlayersDB.setMuted(uuid, false, null);
         this.muted = false;
     }
 
@@ -48,7 +81,7 @@ public class User {
     }
 
     public void ban(String reason) {
-        SQL.setBanned(player, true, reason);
+        PlayersDB.setBanned(uuid, true, reason);
         this.banned = true;
     }
 
@@ -56,8 +89,8 @@ public class User {
         return banReason;
     }
 
-    public void unban() {
-        SQL.setBanned(player, false, null);
+    public void unBan() {
+        PlayersDB.setBanned(uuid, false, null);
         this.banned = false;
     }
 

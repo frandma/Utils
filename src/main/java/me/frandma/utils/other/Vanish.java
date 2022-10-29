@@ -37,6 +37,9 @@ public class Vanish {
     public boolean isVanished(OfflinePlayer player) {
         return vanishlist.contains(player.getUniqueId());
     }
+    public boolean isVanished(UUID uuid) {
+        return vanishlist.contains(uuid);
+    }
 
     private static String tACC(String tTT) {
         return ChatColor.translateAlternateColorCodes('&', tTT);

@@ -1,7 +1,7 @@
-package me.frandma.utils;
+package me.frandma.utils.other;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.frandma.utils.other.Vanish;
+import me.frandma.utils.Utils;
 import org.bukkit.OfflinePlayer;
 
 public class PAPI extends PlaceholderExpansion {

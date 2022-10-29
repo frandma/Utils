@@ -2,7 +2,6 @@ package me.frandma.utils.listeners;
 
 import me.frandma.utils.Utils;
 import me.frandma.utils.commands.StaffChatCommand;
-import me.frandma.utils.sqlite.SQL;
 import me.frandma.utils.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

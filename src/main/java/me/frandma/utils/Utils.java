@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import me.frandma.utils.commands.*;
 import me.frandma.utils.listeners.*;
-import me.frandma.utils.sqlite.SQL;
+import me.frandma.utils.other.PAPI;
+import me.frandma.utils.user.PlayersDB;
 import me.frandma.utils.user.UserData;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
@@ -25,16 +26,17 @@ public final class Utils extends JavaPlugin {
     public void onEnable() {
         instance = this;
         file = getFile();
-        getConfig().options().copyDefaults();
+        getConfig().options().copyDefaults(true);
         saveDefaultConfig();
         registerCommands();
         registerListeners();
-        SQL.setup();
+        PlayersDB.setup();
         papi();
         setupChat();
     }
 
     private void registerCommands() {
+        getCommand("ban").setExecutor(new BanCommand());
         getCommand("clear").setExecutor(new ClearCommand());
         getCommand("discord").setExecutor(new DiscordCommand());
         getCommand("gamemode").setExecutor(new GamemodeCommand());

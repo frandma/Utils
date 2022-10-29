@@ -12,11 +12,11 @@ import org.bukkit.entity.Player;
 
 import java.util.Date;
 
-public class MuteCommand implements CommandExecutor {
+public class BanCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!label.contains("un")) {
-            //Mute Command:
+            //Ban Command:
             if (args.length < 2) return false;
 
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
@@ -25,37 +25,39 @@ public class MuteCommand implements CommandExecutor {
 
 
             long time = new Date().getTime() + Integer.parseInt(args[1]);
-            PlayersDB.setMuted(target.getUniqueId(), true, args[2]);
+            PlayersDB.setBanned(target.getUniqueId(), true, args[2]);
+            if (target.isOnline()) {
+                ((Player)target).sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.instance.getConfig().getString("afterBanMessage")));
+            }
 
             String name = sender.getName();
             if (!(sender instanceof Player)) name = "Console";
 
-            Bukkit.broadcast("§9[S] §b" + name + "§f muted §b" + target.getName() + "§f with reason §b\"" + args[1] + "\"§f.", "Utils.staff");
+            Bukkit.broadcast("§9[S] §b" + name + "§f banned §b" + target.getName() + "§f with reason §b\"" + args[1] + "\"§f.", "Utils.staff");
 
         } else {
-            //UnMute Command:
+            //UnBan Command:
             if (args.length < 1) {
-                sender.sendMessage("§c/unmute <player>");
+                sender.sendMessage("§c/unban <player>");
                 return true;
             }
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
             if (target == null) {
-                sender.sendMessage("§c/unmute <player>");
+                sender.sendMessage("§c/unban <player>");
                 return true;
             }
 
 
 
-            PlayersDB.setMuted(target.getUniqueId(), false, null);
+            PlayersDB.setBanned(target.getUniqueId(), false, null);
 
             String name = sender.getName();
             if (!(sender instanceof Player)) name = "Console";
 
-            Bukkit.broadcast("§9[S] §b" + name + "§f unmuted §b" + target.getName() + "§f.", "Utils.staff");
+            Bukkit.broadcast("§9[S] §b" + name + "§f unbanned §b" + target.getName() + "§f.", "Utils.staff");
         }
         return true;
     }
-
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
