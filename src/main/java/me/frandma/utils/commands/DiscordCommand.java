@@ -1,14 +1,14 @@
 package me.frandma.utils.commands;
 
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class DiscordCommand implements CommandExecutor {
 
-    private final Utils plugin;
-    public DiscordCommand(Utils plugin) {
+    private final UtilsPlugin plugin;
+    public DiscordCommand(UtilsPlugin plugin) {
         this.plugin = plugin;
     }
 

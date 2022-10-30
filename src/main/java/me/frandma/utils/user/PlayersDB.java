@@ -1,9 +1,8 @@
 package me.frandma.utils.user;
 
 import lombok.experimental.UtilityClass;
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -14,14 +13,16 @@ import java.util.UUID;
 @UtilityClass
 public class PlayersDB {
     private Connection c;
+    private final String afterMuteMessage = UtilsPlugin.getInstance().getConfig().getString("afterMuteMessage");
+    private final String unMuteMessage = UtilsPlugin.getInstance().getConfig().getString("afterMuteMessage");
 
     public void setup() {
-        File dataFolder = new File(Utils.getInstance().getDataFolder(), "players.db");
+        File dataFolder = new File(UtilsPlugin.getInstance().getDataFolder(), "players.db");
         if (!dataFolder.exists()){
             try {
                 dataFolder.createNewFile();
             } catch (IOException e) {
-                Utils.getInstance().getLogger().info("File write error: players.db");
+                UtilsPlugin.getInstance().getLogger().info("File write error: players.db");
             }
         }
         try {
@@ -55,10 +56,10 @@ public class PlayersDB {
         Player p = Bukkit.getPlayer(uuid);
         if (bool) {
             if (!p.isOnline()) return;
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.getInstance().getConfig().getString("afterMuteMessage")));
+            p.sendMessage(afterMuteMessage);
         } else {
             if (!p.isOnline()) return;
-            p.sendMessage(ChatColor.translateAlternateColorCodes('&', Utils.getInstance().getConfig().getString("unMuteMessage")));
+            p.sendMessage(unMuteMessage);
         }
 
     }
@@ -100,7 +101,7 @@ public class PlayersDB {
         if (!bool) return;
         Player p = Bukkit.getPlayer(uuid);
         if (!p.isOnline()) return;
-        p.kickPlayer(Utils.getInstance().getConfig().getString("afterBanMessage"));
+        p.kickPlayer(UtilsPlugin.getInstance().getConfig().getString("afterBanMessage"));
     }
 
     public boolean isBanned(UUID uuid) {
@@ -121,6 +122,18 @@ public class PlayersDB {
             ResultSet rs = ps.executeQuery();
             ps.close();
             return rs.getString(5);
+        } catch (SQLException e){
+            Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
+            return null;
+        }
+    }
+
+    public ResultSet getResultSet(UUID uuid) {
+        try (PreparedStatement ps = c.prepareStatement("SELECT * FROM players WHERE uuid = ?")) {
+            ps.setString(1, uuid.toString());
+            ResultSet rs = ps.executeQuery();
+            ps.close();
+            return rs;
         } catch (SQLException e){
             Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
             return null;

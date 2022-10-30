@@ -1,6 +1,6 @@
 package me.frandma.utils.listeners;
 
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import me.frandma.utils.commands.MuteChatCommand;
 import me.frandma.utils.commands.StaffChatCommand;
 import me.frandma.utils.user.User;
@@ -13,10 +13,11 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerChatListener implements Listener {
 
-    private final Utils plugin;
-    public PlayerChatListener(Utils plugin) {
+    private final UtilsPlugin plugin;
+    public PlayerChatListener(UtilsPlugin plugin) {
         this.plugin = plugin;
     }
+
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
@@ -24,12 +25,12 @@ public class PlayerChatListener implements Listener {
         if (MuteChatCommand.isChatMuted()) {
             if (p.hasPermission("utils.mutechat")) return;
             e.setCancelled(true);
-            p.sendMessage("§7You cannot chat while the chat is muted.");
+            p.sendMessage(plugin.getConfig().getString("chatWhileChatMuted"));
             return;
         }
         User user = plugin.getUserData().get(p);
         if (user.isMuted()) {
-            p.sendMessage("§7You cannot chat while muted.");
+            p.sendMessage(plugin.getConfig().getString("chatWhileMuted"));
             e.setCancelled(true);
             return;
         }

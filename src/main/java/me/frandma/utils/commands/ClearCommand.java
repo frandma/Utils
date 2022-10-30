@@ -1,6 +1,5 @@
 package me.frandma.utils.commands;
 
-import me.frandma.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

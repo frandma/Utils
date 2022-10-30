@@ -1,6 +1,6 @@
 package me.frandma.utils.listeners;
 
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import me.frandma.utils.user.User;
 import me.frandma.utils.user.UserData;
 import org.bukkit.Bukkit;
@@ -11,8 +11,8 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
 public class PlayerPreLoginListener implements Listener {
 
-    private final Utils plugin;
-    public PlayerPreLoginListener(Utils plugin) {
+    private final UtilsPlugin plugin;
+    public PlayerPreLoginListener(UtilsPlugin plugin) {
         this.plugin = plugin;
     }
 

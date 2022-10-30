@@ -5,6 +5,8 @@ import me.frandma.utils.other.Vanish;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
 
 public class User {
@@ -16,32 +18,48 @@ public class User {
     private boolean banned;
     private String banReason;
 
+
     public User(Player player) {
         this.name = player.getName();
         this.uuid = player.getUniqueId();
         this.vanished = Vanish.isVanished(player.getUniqueId());
-        this.muted = PlayersDB.isMuted(player.getUniqueId());
-        this.muteReason = PlayersDB.getMuteReason(player.getUniqueId());
-        this.banned = PlayersDB.isBanned(player.getUniqueId());
-        this.banReason = PlayersDB.getBanReason(player.getUniqueId());
+        ResultSet rs = PlayersDB.getResultSet(player.getUniqueId());
+        try {
+            this.muted = rs.getBoolean(2);
+            this.muteReason = rs.getString(3);
+            this.banned = rs.getBoolean(4);
+            this.banReason = rs.getString(5);
+        } catch (SQLException e) {
+            Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
+        }
     }
 
     public User(String name, UUID uuid) {
         this.name = name;
         this.uuid = uuid;
         this.vanished = Vanish.isVanished(uuid);
-        this.muted = PlayersDB.isMuted(uuid);
-        this.muteReason = PlayersDB.getMuteReason(uuid);
-        this.banned = PlayersDB.isBanned(uuid);
-        this.banReason = PlayersDB.getBanReason(uuid);
+        ResultSet rs = PlayersDB.getResultSet(uuid);
+        try {
+            this.muted = rs.getBoolean(2);
+            this.muteReason = rs.getString(3);
+            this.banned = rs.getBoolean(4);
+            this.banReason = rs.getString(5);
+        } catch (SQLException e) {
+            Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
+        }
     }
 
     public void load() {
         this.vanished = Vanish.isVanished(uuid);
-        this.muted = PlayersDB.isMuted(uuid);
-        this.muteReason = PlayersDB.getMuteReason(uuid);
-        this.banned = PlayersDB.isBanned(uuid);
-        this.banReason = PlayersDB.getBanReason(uuid);
+        ResultSet rs = PlayersDB.getResultSet(uuid);
+        try {
+            this.muted = rs.getBoolean(2);
+            this.muteReason = rs.getString(3);
+            this.banned = rs.getBoolean(4);
+            this.banReason = rs.getString(5);
+        } catch (SQLException e) {
+            Bukkit.getLogger().info(e.getClass().getName() + ": " + e.getMessage());
+        }
     }
 
     public Player getPlayer() {

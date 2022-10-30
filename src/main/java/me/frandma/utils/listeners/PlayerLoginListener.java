@@ -1,6 +1,6 @@
 package me.frandma.utils.listeners;
 
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import me.frandma.utils.user.User;
 import me.frandma.utils.user.UserData;
 import org.bukkit.ChatColor;
@@ -10,8 +10,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PlayerLoginListener implements Listener {
 
-    private final Utils plugin;
-    public PlayerLoginListener(Utils plugin) {
+    private final UtilsPlugin plugin;
+    public PlayerLoginListener(UtilsPlugin plugin) {
         this.plugin = plugin;
     }
 

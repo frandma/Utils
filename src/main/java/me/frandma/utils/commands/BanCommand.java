@@ -1,6 +1,6 @@
 package me.frandma.utils.commands;
 
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import me.frandma.utils.user.PlayersDB;
 import me.frandma.utils.user.User;
 import org.bukkit.Bukkit;
@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 
 public class BanCommand implements CommandExecutor {
 
-    private final Utils plugin;
-    public BanCommand(Utils plugin) {
+    private final UtilsPlugin plugin;
+    public BanCommand(UtilsPlugin plugin) {
         this.plugin = plugin;
     }
 

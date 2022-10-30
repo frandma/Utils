@@ -1,14 +1,14 @@
 package me.frandma.utils.other;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import org.bukkit.OfflinePlayer;
 
 public class PAPI extends PlaceholderExpansion {
 
-    private final Utils plugin;
+    private final UtilsPlugin plugin;
 
-    public PAPI(Utils plugin) {
+    public PAPI(UtilsPlugin plugin) {
         this.plugin = plugin;
     }
 

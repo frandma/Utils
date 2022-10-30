@@ -1,10 +1,9 @@
 package me.frandma.utils.commands;
 
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import me.frandma.utils.user.PlayersDB;
 import me.frandma.utils.user.User;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,8 +12,8 @@ import org.bukkit.entity.Player;
 
 public class MuteCommand implements CommandExecutor {
 
-    private final Utils plugin;
-    public MuteCommand(Utils plugin) {
+    private final UtilsPlugin plugin;
+    public MuteCommand(UtilsPlugin plugin) {
         this.plugin = plugin;
     }
 

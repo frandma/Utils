@@ -12,12 +12,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-
 @Getter
 @Setter
-public final class Utils extends JavaPlugin {
-    private static Utils instance;
+public final class UtilsPlugin extends JavaPlugin {
+    private static UtilsPlugin instance;
     private static Chat chat;
     private final UserData userData = new UserData();
 
@@ -67,7 +65,7 @@ public final class Utils extends JavaPlugin {
     public static Chat getChat() {
         return chat;
     }
-    public static Utils getInstance() { return instance; }
+    public static UtilsPlugin getInstance() { return instance; }
     public UserData getUserData() {
         return this.userData;
     }

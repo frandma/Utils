@@ -1,6 +1,6 @@
 package me.frandma.utils.listeners;
 
-import me.frandma.utils.Utils;
+import me.frandma.utils.UtilsPlugin;
 import me.frandma.utils.other.Vanish;
 import me.frandma.utils.user.User;
 import me.frandma.utils.user.UserData;
@@ -15,8 +15,8 @@ import java.util.UUID;
 
 public class PlayerJoinListener implements Listener {
 
-    private final Utils plugin;
-    public PlayerJoinListener(Utils plugin) {
+    private final UtilsPlugin plugin;
+    public PlayerJoinListener(UtilsPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -29,7 +29,7 @@ public class PlayerJoinListener implements Listener {
             p.kickPlayer("Couldn't fetch user data at the join stage, please try logging in again. If this error persists contact us. \n https://discord.gg/wRGsrJE97R");
             return;
         }
-        p.setDisplayName(ChatColor.translateAlternateColorCodes('&', Utils.getChat().getPlayerPrefix(p)) + p.getName());
+        p.setDisplayName(ChatColor.translateAlternateColorCodes('&', UtilsPlugin.getChat().getPlayerPrefix(p)) + p.getName());
         if (p.hasPermission("utils.staff")) {
             e.setJoinMessage(null);
             user.vanish(false);
